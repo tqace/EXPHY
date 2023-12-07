@@ -257,25 +257,24 @@ class IODINE(torch.nn.Module):
                         ret = {'step':[],'v':[],'f_col':[],'f_chg':[]}
                         if i==1:
                             if scenario=='collision':
-                                tmp = z_mc[k1,0]
-                                z_mc[k1,0] = z_mc[k2,0]
-                                z_mc[k2,0] = tmp
+                                z_mc[k2,0] -= 4
                             else:
-                                z_mc[k2,1] = z_mc[k1,1]
+                                z_mc[k2,1] = z_mc[k1,1].clone()
                         if i==2:
                             if scenario=='collision':
+                                z_mc[k2,0] += 4
                                 z_mc[k1,0]-=4
                             else:
-                                z_mc[k1,1]+=2
-                                z_mc[k2,1]+=2
+                                z_mc[k1,1]+=1.5
+                                z_mc[k2,1]+=1.5
 
-                        for j in range(self.n_pred_steps):
+                        for j in range(self.n_pred_steps+1):
                             if j>0:
                                 z_dyn_update,f_col,f_chg = self.interactor_pre(z_dyn,z,z_mc)
                                 ret['step'].append(j)
-                                ret['v'].append((z_dyn.clone()[k1],z_dyn.clone()[k2]))
-                                ret['f_col'].append((f_col[k1],f_col[k2]))
-                                ret['f_chg'].append((f_chg[k1],f_chg[k2]))
+                                ret['v'].append((z_dyn.clone()[k1].cpu().detach().numpy(),z_dyn.clone()[k2].cpu().detach().numpy()))
+                                ret['f_col'].append((f_col[k1].cpu().detach().numpy(),f_col[k2].cpu().detach().numpy()))
+                                ret['f_chg'].append((f_chg[k1].cpu().detach().numpy(),f_chg[k2].cpu().detach().numpy()))
                                 z_dyn += z_dyn_update
                             z_update = self.interactor(z_dyn)
                             z+=z_update
@@ -293,9 +292,8 @@ class IODINE(torch.nn.Module):
                             final_masks_pred.append(masks_pred)
 
                         output_means_pred = (torch.stack(final_mu_x_pred).permute(1,0,2,3,4,5) * torch.stack(final_masks_pred).permute(1,0,2,3,4,5)).sum(dim=2)
-                        ret['imagination']=output_means_pred
+                        ret['image']=output_means_pred.squeeze(0)
                         rets.append(ret)
-                ipdb.set_trace()
 
                 return rets[0],rets[1],rets[2]
     
@@ -400,7 +398,7 @@ class IODINE(torch.nn.Module):
         new_state_dict = {key : state_dict[key] for key in state_dict if 'grid' not in key and 'z_dim' not in key}
         model_dict.update(new_state_dict)
         self.load_state_dict(model_dict)
-        print('load ckpt successfully')
+        #print('load ckpt successfully')
 
     """
     Checks if any of the model's weights are NaN
@@ -443,6 +441,7 @@ class Interactor(nn.Module):
         self.linear_S_C = nn.Sequential(nn.Linear(256, 256), nn.Linear(256, 1))
         self.norm_M = nn.BatchNorm1d(1)
         self.norm_C = nn.BatchNorm1d(1)
+        self.norm = nn.BatchNorm1d(1)
         self.dynamic_update=nn.Linear(256, 2, bias=False)
         self.dynamic_update_C=nn.Linear(256, 2, bias=False)
 

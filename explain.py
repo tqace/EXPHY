@@ -1,4 +1,8 @@
 import torchvision.models as models
+from PIL import Image
+import torchvision.transforms.functional as TF
+import imageio
+import pandas as pd
 import ipdb
 import argparse
 import torchvision
@@ -37,7 +41,7 @@ def get_args_parser():
     return parser
 
 def main(args):
-    save_path = args.save_path
+    save_path = os.path.join(args.save_path,args.scenario)
     datapath = 'data/col' if args.scenario=='collision' else 'data/chg'
     pretrained_path = args.pretrained_path
     device = args.device
@@ -56,6 +60,8 @@ def main(args):
     img_dim = tuple(map(int, args.img_dim.split(','))) 
     beta = args.beta 
     use_feature_extractor = True
+    
+    print('----------Scenario: ',args.scenario,'----------\n')
 
     #DataLoader
     dataloader = torch.utils.data.DataLoader(
@@ -74,17 +80,67 @@ def main(args):
     v = v.to(device)
     v.eval()
             
+
     for i,mbatch in enumerate(dataloader):
         x = mbatch.to(device)[:,:]		
         gt = x
         N,F,C,H,W = x.shape
-        grid_img = torchvision.utils.save_image(x[0], save_path + '/gt.png')
+        observation_frames = []
+        explain_frames = [] 
+        counterfactual1_frames = []  
+        counterfactual2_frames = []  
+        new_size = (96*2, 64*2)
+        #Observation
+        for j in range(6):
+            gt_img = x[0][j]
+            gt_img = TF.to_pil_image(gt_img)
+            gt_img = gt_img.resize(new_size, Image.BILINEAR)
+            observation_frames.append(gt_img)
+            if j==0:
+                explain_frames.append(gt_img)
+                counterfactual1_frames.append(gt_img)
+                counterfactual2_frames.append(gt_img)
+        #Results
         explain_ret,counterfactual_ret1,counterfactual_ret2 = v.interpret(x,args.scenario)	
-        #for i in  range(3):
-        #    for k in range(8):
-        #        output_means_pred = (torch.stack(mu_x_pred[i][k]).permute(1,0,2,3,4,5) * torch.stack(masks_pred[i][k]).permute(1,0,2,3,4,5)).sum(dim=2)
-        #        grid_img = torchvision.utils.save_image(output_means_pred[0], save_path + 'images/'+'results_pred_{}_{}'.format(i,k) + '.png')
+        
+        #Explanation
+        for j in range(5):
+            explain_img = explain_ret['image'][j]
+            explain_img = TF.to_pil_image(explain_img)  # 将Tensor转换为PIL图像
+            explain_img = explain_img.resize(new_size, Image.BILINEAR)  # 调整图像大小
+            explain_frames.append(explain_img) # 将PIL图像转换回Tensor
+        del explain_ret['image']
+        df = pd.DataFrame(explain_ret)
+        df_string = df.to_string(index=False)
+        print('Explanation \n',df_string,'\n \n')
+        #Counterfactual 1
+        for j in range(5):
+            counterfactual1_img = counterfactual_ret1['image'][j]
+            counterfactual1_img = TF.to_pil_image(counterfactual1_img)
+            counterfactual1_img = counterfactual1_img.resize(new_size, Image.BILINEAR)
+            counterfactual1_frames.append(counterfactual1_img)
+        del counterfactual_ret1['image']
+        df = pd.DataFrame(counterfactual_ret1)
+        df_string = df.to_string(index=False)
+        print('Counterfactual 1 \n',df_string,'\n \n')
+        #Counterfactual 2
+        for j in range(5):
+            counterfactual2_img = counterfactual_ret2['image'][j]
+            counterfactual2_img = TF.to_pil_image(counterfactual2_img)
+            counterfactual2_img = counterfactual2_img.resize(new_size, Image.BILINEAR)
+            counterfactual2_frames.append(counterfactual2_img)
+        del counterfactual_ret2['image']
+        df = pd.DataFrame(counterfactual_ret2)
+        df_string = df.to_string(index=False)
+        print('Counterfactual 2 \n',df_string)
+        
+        imageio.mimsave(save_path + '/observation.gif', observation_frames, duration=0.5)
 
+        imageio.mimsave(save_path + '/explain.gif', explain_frames, duration=0.5)
+
+        imageio.mimsave(save_path +'/counterfactual_1.gif', counterfactual1_frames, duration=0.5)
+
+        imageio.mimsave(save_path + '/counterfactual_2.gif', counterfactual2_frames, duration=0.5)
 
 if __name__ == '__main__':
     args = get_args_parser()
