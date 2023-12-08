@@ -1,5 +1,5 @@
 # EXPHY
-[**EXPHY: Learning Explainable Intuitive Physics in Neural Networks**]
+**EXPHY: Learning Explainable Intuitive Physics in Neural Networks**
 
 Observation| Reconstruction | Counterfactual 1 | Counterfactual 2
 :--------------------------------------------------:|:--------------------------------------------------: |:--------------------------------------------------: |:--------------------------------------------------: 
