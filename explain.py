@@ -18,7 +18,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 def get_args_parser():
     parser = argparse.ArgumentParser(description='Set hyperparameters for the model.')
     parser.add_argument('--save_path', type=str, default='results', help='Path to save the trained models')
-    parser.add_argument('--scenario', type=str, default='collision', help='Collision or Coulomb interaction')
+    parser.add_argument('--scenario', type=str, choices=['collision','charge'], help='Collision or Coulomb interaction')
     parser.add_argument('--pretrained_path', type=str, default='pretrained.th', help='Path to pretrained model')
     parser.add_argument('--device', type=str, default='cuda:0', help='Device to use')
     parser.add_argument('--batch_size', type=int, default=1, help='Batch size')

@@ -16,8 +16,8 @@ Observation| Reconstruction | Counterfactual 1 | Counterfactual 2
 ![image](results/charge/observation.gif)  |  ![image](results/charge/explain.gif) | ![image](results/charge/counterfactual_1.gif) | ![image](results/charge/counterfactual_2.gif) 
 
 ## Requirements
-- Python 3.6+
-- CUDA 11.0+
+- Python 3.6.9
+- CUDA 11.0
 - Others (See requirements.txt)
   
 ## Installation 
@@ -28,6 +28,7 @@ git clone https://github.com/tqace/EXPHY.git && cd EXPHY
 pip -r requirments.txt
 ```
 ## Explanation inference
+This code outputs a force analysis corresponding to the observations and counterfactual imaginations in the "Visualization Demos".
 ```
 python explain.py --scenario collision
 python explain.py --scenario charge
