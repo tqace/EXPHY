@@ -1,0 +1,10 @@
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==1.7.1+cu110
+torchvision==0.8.2
+imageio==2.6.1
+pandas==1.1.5
+Pillow==8.1.1
+scikit-image==0.16.2
+scikit-learn==0.23.0
+scipy==1.5.4
+tensorboardX==2.0
