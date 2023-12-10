@@ -28,7 +28,7 @@ git clone https://github.com/tqace/EXPHY.git && cd EXPHY
 pip -r requirments.txt
 ```
 ## Explanation inference
-This code outputs a force analysis corresponding to the observations and counterfactual imaginations in the "Visualization Demos".
+This commands outputs force analyses corresponding to the observations and counterfactual imaginations in the "Visualization Demos".
 ```
 python explain.py --scenario collision
 python explain.py --scenario charge
