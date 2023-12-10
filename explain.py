@@ -105,9 +105,9 @@ def main(args):
         #Explanation
         for j in range(5):
             explain_img = explain_ret['image'][j]
-            explain_img = TF.to_pil_image(explain_img)  # 将Tensor转换为PIL图像
-            explain_img = explain_img.resize(new_size, Image.BILINEAR)  # 调整图像大小
-            explain_frames.append(explain_img) # 将PIL图像转换回Tensor
+            explain_img = TF.to_pil_image(explain_img)  
+            explain_img = explain_img.resize(new_size, Image.BILINEAR)  
+            explain_frames.append(explain_img) 
         del explain_ret['image']
         df = pd.DataFrame(explain_ret)
         df_string = df.to_string(index=False)
