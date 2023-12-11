@@ -253,7 +253,7 @@ class IODINE(torch.nn.Module):
                         z_dyn = z_dyn_.clone()
                         final_masks_pred = []
                         final_mu_x_pred = []
-                        ret = {'step':[],'velocity':[],'f_col':[],'f_chg':[]}
+                        ret = {'Frame':[],'Velocity':[],'Collision Acceleration':[],'Coulomb Acceleration':[]}
                         if i==1:
                             if scenario=='collision':
                                 z_mc[k2,0] -= 4
@@ -270,10 +270,10 @@ class IODINE(torch.nn.Module):
                         for j in range(self.n_pred_steps+1):
                             if j>0:
                                 z_dyn_update,f_col,f_chg = self.interactor_pre(z_dyn,z,z_mc)
-                                ret['step'].append(j)
-                                ret['velocity'].append((z_dyn.clone()[k1].cpu().detach().numpy(),z_dyn.clone()[k2].cpu().detach().numpy()))
-                                ret['f_col'].append((f_col[k1].cpu().detach().numpy(),f_col[k2].cpu().detach().numpy()))
-                                ret['f_chg'].append((f_chg[k1].cpu().detach().numpy(),f_chg[k2].cpu().detach().numpy()))
+                                ret['Frame'].append(j)
+                                ret['Velocity'].append((z_dyn.clone()[k1].cpu().detach().numpy(),z_dyn.clone()[k2].cpu().detach().numpy()))
+                                ret['Collision Acceleration'].append((f_col[k1].cpu().detach().numpy(),f_col[k2].cpu().detach().numpy()))
+                                ret['Coulomb Acceleration'].append((f_chg[k1].cpu().detach().numpy(),f_chg[k2].cpu().detach().numpy()))
                                 z_dyn += z_dyn_update
                             z_update = self.interactor(z_dyn)
                             z+=z_update
