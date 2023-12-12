@@ -14,7 +14,7 @@ This is the official PyTorch implementation for the paper: **EXPHY: Learning Exp
 || |
 ![image](results/charge/observation.gif)  |  ![image](results/charge/explain.gif) | ![image](results/charge/counterfactual_1.gif) | ![image](results/charge/counterfactual_2.gif)>
 ![image](demo/col_explain.gif)
-### Explian counterfactual imagination
+### Explain counterfactual imagination
 ![image](demo/col_counterfactual.gif)
 
 ## Requirements
