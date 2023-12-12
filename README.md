@@ -3,10 +3,8 @@
 ## Introduction
 This is the official PyTorch implementation for the paper: **EXPHY: Learning Explainable Intuitive Physics in Neural Networks**. This repository contains:
 - pre-trained model
-- Visual demos of **counterfactual imagination**:
-  1. Collision: _1. What if the cylinder is heavier?_; _2. What if the sphere is heavier?_
-  2. Coulomb interaction: _1. What if the objects are uncharged?_; _2. What if the objects undergo repulsion?_
-- Inference code for physical event **explanation**
+- Visual demos of **explanation** for observation and **counterfactual imagination**:
+- Inference code for physical event explanation
 
 ## Visualization Demos
 ### Explain observation
