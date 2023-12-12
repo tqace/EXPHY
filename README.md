@@ -28,16 +28,13 @@ git clone https://github.com/tqace/EXPHY.git && cd EXPHY
 pip -r requirments.txt
 ```
 ## Explanation inference
-The commands output force analyses corresponding to the observations and counterfactual imaginations in the "Visualization Demos".
+The commands output force analyses which encompasses three specific parameters: Velocity, Collision Acceleration, and Coulomb Acceleration. 
 ```
 python explain.py --scenario collision
 python explain.py --scenario charge
 ```
-The force analysis initiates from the second frame of the input video. The analysis encompasses three specific parameters: Velocity, Collision Acceleration, and Coulomb Acceleration. The resulting table provided by EXPHY will be structured as follows:
-
-| **Frame** | **Velocity** | **Collision Acceleration** | **Coulomb Acceleration** |
-|:---------:|:------------:|:----------------------------------:|:---------------------------------:|
-| **n-1**   | ... | ... | ... |
-| **n**     | object1, object2 | object1, object2 | object1, object2 |
-| **n+1**   | ... | ... | ... |
+EXPHY can provide explanations for observed and counterfactual physical scenarios:
+<video width="320" height="240" controls>
+  <source src="demo/col_explain.mp4" type="video/mp4">
+</video>
 
