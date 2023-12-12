@@ -9,12 +9,14 @@ This is the official PyTorch implementation for the paper: **EXPHY: Learning Exp
 - Inference code for physical event **explanation**
 
 ## Visualization Demos
+### Explain observation
 <!Observation| Reconstruction | Counterfactual 1 | Counterfactual 2
 :--------------------------------------------------:|:--------------------------------------------------: |:--------------------------------------------------: |:--------------------------------------------------: 
 ![image](results/collision/observation.gif)  |  ![image](results/collision/explain.gif) | ![image](results/collision/counterfactual_1.gif) | ![image](results/collision/counterfactual_2.gif) 
 || |
 ![image](results/charge/observation.gif)  |  ![image](results/charge/explain.gif) | ![image](results/charge/counterfactual_1.gif) | ![image](results/charge/counterfactual_2.gif)>
 ![image](demo/col_explain.gif)
+### Explian counterfactual imagination
 ![image](demo/col_counterfactual.gif)
 
 ## Requirements
