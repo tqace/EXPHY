@@ -9,11 +9,13 @@ This is the official PyTorch implementation for the paper: **EXPHY: Learning Exp
 - Inference code for physical event **explanation**
 
 ## Visualization Demos
-Observation| Reconstruction | Counterfactual 1 | Counterfactual 2
+<!Observation| Reconstruction | Counterfactual 1 | Counterfactual 2
 :--------------------------------------------------:|:--------------------------------------------------: |:--------------------------------------------------: |:--------------------------------------------------: 
 ![image](results/collision/observation.gif)  |  ![image](results/collision/explain.gif) | ![image](results/collision/counterfactual_1.gif) | ![image](results/collision/counterfactual_2.gif) 
 || |
-![image](results/charge/observation.gif)  |  ![image](results/charge/explain.gif) | ![image](results/charge/counterfactual_1.gif) | ![image](results/charge/counterfactual_2.gif) 
+![image](results/charge/observation.gif)  |  ![image](results/charge/explain.gif) | ![image](results/charge/counterfactual_1.gif) | ![image](results/charge/counterfactual_2.gif)>
+![image](demo/col_explain.gif)
+![image](demo/col_counterfactual.gif)
 
 ## Requirements
 - Python 3.6.9
@@ -28,13 +30,9 @@ git clone https://github.com/tqace/EXPHY.git && cd EXPHY
 pip -r requirments.txt
 ```
 ## Explanation inference
-The commands output force analyses which encompasses three specific parameters: Velocity, Collision Acceleration, and Coulomb Acceleration. 
+The commands output force analyses which encompasses three specific parameters: Velocity, Collision Acceleration, and Coulomb Acceleration:
 ```
 python explain.py --scenario collision
 python explain.py --scenario charge
 ```
-EXPHY can provide explanations for observed and counterfactual physical scenarios:
-<video width="320" height="240" controls>
-  <source src="demo/col_explain.mp4" type="video/mp4">
-</video>
 
